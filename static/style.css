@@ -1,0 +1,32 @@
+@charset "utf-8";
+
+body {
+	font-size: 1em;
+}
+
+.body-content {
+	width: 50%;
+}
+
+dl {
+	width: 600px;
+	overflow: hidden;
+	padding: 0;
+	margin: 0
+}
+dt {
+	float: left;
+	width: 100px;
+	/* adjust the width; make sure the total of both is 100% */
+	background: rgb(70, 141, 108);
+	padding: 0;
+	margin: 0
+}
+dd {
+	float: left;
+	width: 400px;
+	/* adjust the width; make sure the total of both is 100% */
+	background: rgb(59, 96, 117);
+	padding: 0;
+	margin: 0
+}

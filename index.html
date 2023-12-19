@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <title>
+Home
+</title>
+    <link rel="shortcut icon" href="/static/myflask.favicon.png">
+    <link rel="stylesheet" type="text/css" href="/static/site.css" />
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-P6RDPHR');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Appier tag -->
+    <script type="text/javascript">
+        !function(q,g,r,a,p,h,js) {
+          if(q.qg)return;
+          js = q.qg = function() {
+            js.callmethod ? js.callmethod.call(js, arguments) : js.queue.push(arguments);
+          };
+          js.queue = [];
+          p=g.createElement(r);p.async=!0;p.src=a;h=g.getElementsByTagName(r)[0];
+          h.parentNode.insertBefore(p,h);
+        } (window,document,'script','https://cdn.qgr.ph/qgraph.d023d23bac0cf1e8e545.js');
+      </script>
+    <!-- End Appier tag -->
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P6RDPHR"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->  
+  <div class="navbar">
+      <a href="/" class="navbar-brand">Home</a>
+      <a href="/refresheyes.html" class="navbar-item">Refresh Eyes</a>
+      <a href="/about/" class="navbar-item">About</a>
+      <a href="/contact/" class="navbar-item">Contact</a>
+  </div>
+  <div class="body-content">
+    
+<p></p>
+<p><b>It is Dummy Account ("api_playground" in AQ) : d023d23bac0cf1e8e545</b></p>
+
+<hr>    
+<!-- local Notification -->
+<p><b>Local Notification (without Service Worker, FCM)</b></p>
+<p>
+    <button onclick="javascript:notifyMe()"><b>Show Local Notification</b></button>
+    <br>
+    * <button onclick="javascript:Notification.requestPermission()">Notification.requestPermission() method</button>
+      will show system prompt until attempts < 3, then click 'Reset Permission' in address bar 
+    <br>
+    * <button onclick="javascript:alert(Notification.permission)">Current Notification.permission value : [default|denied|granted]</button>
+</p>
+<p>
+    * <a href="https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API/Using_the_Notifications_API"
+        target="_blank">Notification API Reference</a>
+</p>
+<script>
+    // https://developer.mozilla.org/en-US/docs/Web/API/notification
+    function notifyMe() {
+        if (!("Notification" in window)) {
+            // Check if the browser supports notifications
+            alert("This browser does not support desktop notification");
+        } else if (Notification.permission === "granted") {
+            // a bit complicated form
+            var title = "Time for a break";
+            var icon = 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg';
+            var body = "커피와 함께";
+            var vibrate = [200, 100, 200, 100, 200, 100, 200];// not working
+            var notification = new Notification(title, { body, icon, vibrate });            
+            // simple form
+            // const notification = new Notification("Hi there!");
+            // handlers
+            notification.addEventListener('show', (event) => {
+                alert('notification showed');
+            })
+            notification.addEventListener('click', (event) => {
+                alert('notification clicked');
+            })
+            notification.addEventListener('close', (event) => {
+                alert('notification closed'); //* 'close' doesn't occur?
+            })
+        } else if (Notification.permission == "denied") {
+            alert("You have already set to block notification")
+        } else if (Notification.permission == "default") {
+            Notification.requestPermission().then((permission) => {
+                if (permission === "granted") {
+                    const notification = new Notification("Hi there!");
+                }
+            });
+        } 
+    }
+</script>
+
+<hr>
+<!-- web push notification test with my VAPID-->
+<style>
+pre
+{
+    background-color: #CCC5B9;
+    border: 10px solid #CCC5B9;
+    border-radius: 3px;
+    overflow-x: visible;
+    overflow-y: visible;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}    
+</style>
+<main>
+    <p><b>My Web Push Notification</b></p>
+    <p>
+        <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+            onclick="push_message()"><b>Send My WebPush</b></button>
+            <br>
+        <section class="subscription-details js-subscription-details is-invisible">
+            * My gcmId : 
+            <br>
+            <pre ><code class="js-subscription-json" ></code></pre>
+            * <button disabled class="js-push-btn mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                Enable Push Notification </button>
+        </section>
+        * <a href="/static/myserviceworker.js" target="_blank">My Service Worker file</a>
+    </p>
+</main>
+<script src="/static/mywebpush.js"></script>
+
+<!-- appier web push notification test-->
+<hr>
+<p><b>Appier Web Push Notification</b></p>
+<button onclick="sendAppierWebPush(1551354)"><b>Send Appier WebPush</b></button>
+<br>
+* Appier gcmId : <pre id="pre_gcmId" ><code ></code></pre>
+* <button onclick="ForceUpdateGcmId()">Update gcmId with </button>
+  <input id="input_gcmId" value="" style="width:70%;">
+<br> ex) <pre style="background-color: lightgrey;border-color: lightgrey;">fdida3ftSfE:APA91bGvlPK_f_DXtFeGLrOrS-6HKh0bQhwrLNsWLsyzWFm9IzXswGZ1eoaPAfi0_G8cOqN0Bxc8K0DJY90DHc4K5NxALzGOmBEKvnyvJNm9XREMhPWH4ATXcv4577FzvxRA16BX5bF7</pre>
+* <a href="/qg-sw.d023d23bac0cf1e8e545.js" target="_blank">Appier Service Worker file</a>
+<script>
+    // IndexedDB control : https://dev.to/alexeagleson/how-to-use-indexeddb-to-store-data-for-your-web-application-in-the-browser-1o90 
+    var g_gcmId = "";
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("◼"+'document is ready. DOMContentLoaded. Trying to get gcmId');
+        getGcmId('aiqua'); // fill g_gcmId
+    });
+    function getGcmId(db) {
+        const indexedDB =
+            window.indexedDB ||
+            window.mozIndexedDB ||
+            window.webkitIndexedDB ||
+            window.msIndexedDB ||
+            window.shimIndexedDB;
+
+        if (!indexedDB) {
+            console.log("IndexedDB could not be found in this browser.");
+            return;
+        }
+
+        // 2
+        const request = indexedDB.open(db);
+
+        // handler
+        request.onerror = function (event) {
+            console.error("An error occurred with IndexedDB");
+            console.error(event);
+        };
+        request.onsuccess = function () {
+            console.log("Database opened successfully");
+
+            const db = request.result;
+
+            // 1
+            const transaction = db.transaction("web_push", "readwrite");
+
+            //2
+            const store = transaction.objectStore("web_push");
+
+            //3 insert value
+            // store.put({ id: 1, colour: "Red", make: "Toyota" });
+
+            //4 get value
+            const my_gcmId = store.get('gcmId');
+
+            // 5
+            my_gcmId.onsuccess = function () {
+                console.log('gcmId', my_gcmId.result);
+                g_gcmId = my_gcmId.result;
+                document.getElementById("pre_gcmId").innerText = g_gcmId;
+            };
+
+            // 6
+            transaction.oncomplete = function () {
+                db.close();
+            };
+        };
+    }
+
+    function sendAppierWebPush(cid) {
+        // ex, sendAppierWebPush(1345523)  // 1345523 : daniel's regular campaign 
+        // ex, importing .js + wait 2 seconds + sendAppierWebPush() in A SINGLE LINE:
+        //    eval(await (await fetch('https://danjang-flask.herokuapp.com/debugger.js')).text());await new Promise(resolve => setTimeout(resolve, 2000));sendAppierWebPush(1345523);
+        if (typeof (g_gcmId) == "undefined" || g_gcmId == "") {
+            alert("We have no gcmId");
+            console.log("We have no gcmId");
+            return;
+        }
+        if (cid == null || cid == "" || cid == 0) {
+            console.log("Please call with a cid. Contact TS");
+            return;
+        }
+        if (QGSettings == null || QGSettings == "" || QGSettings.appId == null || QGSettings.appId == "") {
+            console.log("We have no QGSettings.appId");
+            return;
+        }
+        // sendpush_uri = "https://danjang-flask.herokuapp.com/webpush/" + QGSettings.appId + "/" + cid + "/" + g_gcmId + "/" + window.location.hostname;
+        //sendpush_uri = "https://aiqua-flask-danjang.koyeb.app/webpush/" + QGSettings.appId + "/" + cid + "/" + g_gcmId + "/" + window.location.hostname;
+        sendpush_uri = "https://aiqua-flask-danjang.koyeb.app/webpush/" + QGSettings.appId + "/" + cid + "/" + g_gcmId + "/" + window.location.hostname;
+        console.log(sendpush_uri);
+        window.open(sendpush_uri, '_blank');
+    }
+    
+    // var g_cid = ""; 
+    // call below at Chrome dev tool > Console to set gcmId if it is local dev environment 
+    function ForceUpdateGcmId() {
+        // g_cid = "1345523"; // 1345523 : daniel's regular campaign 
+        v = document.getElementById("input_gcmId").value;
+        if (v.length == 0 ) {
+            alert("insert a new gcmId into the input box");
+            document.getElementById("input_gcmId").focus();
+            return;
+        }
+        g_gcmId = document.getElementById("input_gcmId").value;
+        document.getElementById("pre_gcmId").innerText = g_gcmId;
+        console.log("now g_gcmId is : " + g_gcmId);
+        alert("gcmId is set. Push 'Send Appier WebPush' button")
+    }
+</script>
+
+
+
+  </div>
+  <hr />
+  <footer>
+    <p>© 2023</p>
+  </footer>
+  <script>
+    window.BBAsyncInit = function() {
+      BB.init({
+        appId: "page-7eddcdb2686e4006a80fa45c"
+      });
+    };
+  </script>
+  <script async type="text/javascript" src="https://d1dh985a59yv80.cloudfront.net/sdk/sdk.js"></script>
+</body>
+
+</html>
