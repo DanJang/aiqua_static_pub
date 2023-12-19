@@ -44,8 +44,34 @@ Home
   <div class="body-content">
     
 <p></p>
-<p><b>It is Dummy Account ("api_playground" in AQ) : d023d23bac0cf1e8e545</b></p>
+<p><b>Account : d023d23bac0cf1e8e545</b></p>
+<hr>
+<!-- some basic appier info  -->
+<table style="">
+    <tr><td>userId</td>
+        <td><pre id="pre_userId" style="background-color: lightgrey;border-color: lightgrey;"></pre></td>
+        <td style="width:20px"></td>
+        <td>wUserId</td>
+        <td><pre id="pre_wUserId" style="background-color: lightgrey;border-color: lightgrey;"></pre></td>
+    </tr>
+</table>  
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("◼"+'document is ready. DOMContentLoaded. Trying to get gcmId');
+    getGcmId('aiqua'); // fill g_gcmId
+    qg('getUserId', function (id){
+        console.log('userId:',id);
+        document.getElementById("pre_userId").innerText = id;   
+    });
+    qg('getWUserId', function (wUserId){
+        console.log('wUserId:',wUserId);    
+        document.getElementById("pre_wUserId").innerText = wUserId;   
+    });
 
+    appier("event","custom_page_viewed", {"url": window.location.href, ...(window.document.referrer ? { "referrer": window.document.referrer, "path":"appier()" } : {}) });
+});
+
+</script>
 <hr>    
 <!-- local Notification -->
 <p><b>Local Notification (without Service Worker, FCM)</b></p>
